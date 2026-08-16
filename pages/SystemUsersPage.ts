@@ -1,5 +1,6 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {User, UserUpdate} from "../types/User";
+import {waitForPageLoad} from "../utils/waits";
 
 export class SystemUsersPage {
     private readonly addButton = this.page.getByRole('button', {name: 'Add'});
@@ -39,6 +40,7 @@ export class SystemUsersPage {
 
     async createUser(user: User): Promise<void> {
         await this.addButton.click();
+        await waitForPageLoad(this.page);
         await this.selectDropdownOption(this.userRoleDropdown, user.role);
         await this.selectEmployee("Orange Test");
         await this.selectDropdownOption(this.statusDropdown, user.status)
@@ -46,11 +48,13 @@ export class SystemUsersPage {
         await this.passwordInput.fill(user.password);
         await this.confirmPasswordInput.fill(user.password);
         await this.saveButton.click();
+        await waitForPageLoad(this.page);
     }
 
     async searchUser(username: string): Promise<void> {
         await this.usernameInput.fill(username);
         await this.searchButton.click();
+        await waitForPageLoad(this.page);
     }
 
     async verifyUserExists(username: string): Promise<void> {
@@ -81,6 +85,7 @@ export class SystemUsersPage {
             }
         }
         await this.saveButton.click();
+        await waitForPageLoad(this.page);
     }
 
     async verifyUserField(username: string,  expectedValue: string) {
@@ -92,6 +97,7 @@ export class SystemUsersPage {
         const row = this.getRowByUsername(username);
         await row.locator("button").first().click();
         await this.page.getByRole('button', {name: 'Yes, Delete'}).click();
+        await waitForPageLoad(this.page);
     }
 
     async verifyUserDeleted(username: string): Promise<void> {

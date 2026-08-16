@@ -1,7 +1,9 @@
-import  {User} from "../types/User";
+import {User} from "../types/User";
 
-export function generateUniqueUsername(): string  {
-    return `auto_${Math.floor(Date.now() / 1000)}`;
+export function generateUniqueUsername(): string {
+    const timestamp = Date.now();
+    const randomPart = Math.random().toString(36).slice(2, 10);
+    return `auto_${timestamp}_${randomPart}`;
 }
 
 export function generateUser(): User {
