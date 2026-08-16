@@ -1,6 +1,6 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {User, UserUpdate} from "../types/User";
-import {waitForPageLoad} from "../utils/waits";
+import {waitForPageLoad, waitForToastToDisappear} from "../utils/waits";
 
 export class SystemUsersPage {
     private readonly addButton = this.page.getByRole('button', {name: 'Add'});
@@ -49,6 +49,7 @@ export class SystemUsersPage {
         await this.confirmPasswordInput.fill(user.password);
         await this.saveButton.click();
         await waitForPageLoad(this.page);
+        await waitForToastToDisappear(this.page);
     }
 
     async searchUser(username: string): Promise<void> {
@@ -86,6 +87,7 @@ export class SystemUsersPage {
         }
         await this.saveButton.click();
         await waitForPageLoad(this.page);
+        await waitForToastToDisappear(this.page);
     }
 
     async verifyUserField(username: string,  expectedValue: string) {
@@ -98,6 +100,7 @@ export class SystemUsersPage {
         await row.locator("button").first().click();
         await this.page.getByRole('button', {name: 'Yes, Delete'}).click();
         await waitForPageLoad(this.page);
+        await waitForToastToDisappear(this.page);
     }
 
     async verifyUserDeleted(username: string): Promise<void> {
